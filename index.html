@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; transition: all 0.3s ease; }
         .theme-gradient { background: linear-gradient(135deg, #581c87 0%, #7e22ce 100%); }
@@ -35,6 +37,17 @@
         }
         .animate-chat { animation: custom-pulse 2s infinite ease-in-out; }
         
+        /* Blob Animations for Profil Section */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
         [data-i18n] { transition: opacity 0.2s ease-in-out; }
         .lang-transition { opacity: 0; }
 
@@ -52,8 +65,8 @@
         }
 
         .leader-img {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             object-fit: cover;
             border-radius: 50%;
             border: 4px solid #f3f4f6;
@@ -64,7 +77,6 @@
             .leader-img { width: 120px; height: 120px; }
         }
 
-        /* Fix for language buttons to be perfectly circular/oval */
         .btn-lang {
             width: 40px;
             height: 28px;
@@ -73,13 +85,19 @@
             justify-content: center;
             text-align: center;
         }
+        
+        /* Custom scrollbar for modals */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #c084fc; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 overflow-x-hidden">
+<body class="bg-gray-50 text-gray-800 overflow-x-hidden relative w-full">
 
     <!-- Floating Chat Button -->
-    <div class="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[9999] flex flex-col items-end group text-right">
-        <span data-i18n="chat-tooltip" class="mb-2 bg-white text-purple-900 text-[10px] font-bold px-3 py-2 rounded-lg shadow-xl border border-purple-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+    <div class="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[9900] flex flex-col items-end group text-right" data-aos="fade-up" data-aos-delay="500">
+        <span data-i18n="chat-tooltip" class="mb-2 bg-white text-purple-900 text-[10px] font-bold px-3 py-2 rounded-lg shadow-xl border border-purple-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center hidden md:block">
             Assalam, Ada Soalan?<br>Hubungi Kami
         </span>
         <a href="https://wa.me/60123456789" target="_blank" class="bg-[#f97316] text-white p-3 md:p-4 rounded-full shadow-2xl hover:bg-orange-600 transition-all duration-300 flex items-center justify-center animate-chat group-hover:scale-110">
@@ -90,18 +108,18 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white shadow-md sticky top-0 z-50 h-16 md:h-20 flex items-center">
+    <nav class="bg-white shadow-md sticky top-0 z-50 h-16 md:h-20 flex items-center w-full">
         <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
             <!-- Logo Section -->
-            <div class="flex items-center text-left flex-shrink-0">
-                <img src="https://i.postimg.cc/T1ww7Z4m/pdk-logo-removebg-preview.png" alt="Logo PPDK" class="h-10 md:h-14 w-auto">
+            <div class="flex items-center text-left flex-shrink-0" data-aos="fade-right">
+                <img src="https://i.postimg.cc/T1ww7Z4m/pdk-logo-removebg-preview.png" alt="Logo PPDK" class="h-9 md:h-14 w-auto">
                 <div class="ml-2 md:ml-3 border-l border-gray-200 pl-2 md:pl-3 flex flex-col justify-center">
-                    <span class="block font-bold text-[11px] md:text-lg text-purple-900 leading-tight uppercase whitespace-nowrap">PPDK Parit Keroma</span>
-                    <span data-i18n="location" class="text-[8px] md:text-[10px] text-orange-600 font-bold uppercase tracking-widest leading-normal">Muar, Johor</span>
+                    <span class="block font-bold text-[10px] md:text-lg text-purple-900 leading-tight uppercase whitespace-nowrap">PPDK Parit Keroma</span>
+                    <span data-i18n="location" class="text-[7px] md:text-[10px] text-orange-600 font-bold uppercase tracking-widest leading-normal">Muar, Johor</span>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-2 md:space-x-4">
+            <div class="flex items-center space-x-2 md:space-x-4" data-aos="fade-left">
                 <!-- Desktop Links -->
                 <div class="hidden lg:flex space-x-6 font-semibold text-xs uppercase tracking-wider text-gray-600 mr-4">
                     <a href="#utama" data-i18n="nav-home" class="hover:text-purple-600 transition">Utama</a>
@@ -111,14 +129,17 @@
                     <a href="#hubungi" data-i18n="nav-contact" class="hover:text-purple-600 transition">Hubungi</a>
                 </div>
 
-                <!-- Language Switcher - FIXED UI -->
-                <div class="flex bg-gray-100 rounded-full p-1 border border-gray-200 shadow-inner flex-shrink-0">
-                    <button onclick="changeLang('ms')" class="btn-lang btn-lang-ms text-[9px] md:text-[10px] font-bold rounded-full transition-all bg-purple-900 text-white shadow-sm">MS</button>
-                    <button onclick="changeLang('en')" class="btn-lang btn-lang-en text-[9px] md:text-[10px] font-bold rounded-full transition-all text-gray-500 hover:text-purple-900">EN</button>
+                <!-- Language Switcher Toggle -->
+                <div class="flex items-center bg-gray-200 rounded-full p-1 shadow-inner relative w-[84px] h-[34px] cursor-pointer flex-shrink-0 border border-gray-300" onclick="toggleLanguage()">
+                    <div id="lang-slider" class="absolute left-1 top-1 w-[36px] h-[24px] bg-purple-900 rounded-full shadow-md transition-transform duration-300 ease-in-out transform translate-x-0"></div>
+                    <div class="relative z-10 flex w-full justify-between text-[11px] font-bold pointer-events-none">
+                        <span id="text-bm" class="w-[36px] text-center text-white transition-colors duration-300">BM</span>
+                        <span id="text-en" class="w-[36px] text-center text-gray-500 transition-colors duration-300">EN</span>
+                    </div>
                 </div>
 
                 <!-- Hamburger Button -->
-                <button onclick="toggleMobileMenu()" class="lg:hidden p-1 text-purple-900 focus:outline-none flex-shrink-0">
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-1.5 text-purple-900 focus:outline-none flex-shrink-0 ml-1">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
                 </button>
 
@@ -129,198 +150,309 @@
     </nav>
 
     <!-- Mobile Menu Drawer -->
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl z-[999] p-6 lg:hidden flex flex-col text-left">
-        <button onclick="toggleMobileMenu()" class="self-end p-2 text-gray-400 mb-8">
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl z-[9999] p-6 lg:hidden flex flex-col text-left">
+        <button onclick="toggleMobileMenu()" class="self-end p-2 text-gray-400 mb-8 hover:text-purple-900 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
         <div class="flex flex-col space-y-6 font-bold text-gray-700 uppercase text-xs tracking-widest">
-            <a href="#utama" onclick="toggleMobileMenu()" data-i18n="nav-home">Utama</a>
-            <a href="#mengenai" onclick="toggleMobileMenu()" data-i18n="nav-profile">Profil</a>
-            <a href="#organisasi" onclick="toggleMobileMenu()" data-i18n="nav-leadership">Organisasi</a>
-            <a href="#sumbangan" onclick="toggleMobileMenu()" data-i18n="nav-contribution">Infaq</a>
-            <a href="#hubungi" onclick="toggleMobileMenu()" data-i18n="nav-contact">Hubungi</a>
+            <a href="#utama" onclick="toggleMobileMenu()" data-i18n="nav-home" class="active:text-purple-600">Utama</a>
+            <a href="#mengenai" onclick="toggleMobileMenu()" data-i18n="nav-profile" class="active:text-purple-600">Profil</a>
+            <a href="#organisasi" onclick="toggleMobileMenu()" data-i18n="nav-leadership" class="active:text-purple-600">Organisasi</a>
+            <a href="#sumbangan" onclick="toggleMobileMenu()" data-i18n="nav-contribution" class="active:text-purple-600">Infaq</a>
+            <a href="#hubungi" onclick="toggleMobileMenu()" data-i18n="nav-contact" class="active:text-purple-600">Hubungi</a>
         </div>
         <div class="mt-auto pt-10">
-            <a href="#sumbangan" onclick="toggleMobileMenu()" data-i18n="cta-top" class="block text-center bg-[#f97316] text-white py-3 rounded-full font-bold text-xs uppercase shadow-md">Infaq Sekarang</a>
+            <a href="#sumbangan" onclick="toggleMobileMenu()" data-i18n="cta-top" class="block text-center bg-[#f97316] active:bg-orange-600 text-white py-3 rounded-full font-bold text-xs uppercase shadow-md">Infaq Sekarang</a>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <header id="utama" class="hero-pattern text-white pt-16 pb-20 md:py-24 px-4 relative overflow-hidden text-center md:text-left">
+    <header id="utama" class="hero-pattern text-white pt-12 pb-16 md:pt-16 md:pb-24 px-4 relative overflow-hidden text-center md:text-left">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 space-y-6 relative z-10 text-left">
-                <div data-i18n="hero-tag" class="inline-block bg-purple-900/30 px-4 py-1 rounded-full text-orange-200 font-semibold text-[10px] md:text-xs uppercase tracking-widest">
+            <div class="md:w-1/2 space-y-5 md:space-y-6 relative z-10 text-center md:text-left" data-aos="fade-right">
+                <div data-i18n="hero-tag" class="inline-block bg-purple-900/30 px-3 md:px-4 py-1.5 rounded-full text-orange-200 font-semibold text-[9px] md:text-xs uppercase tracking-widest">
                     Pusat Pemulihan & Infaq Jariyah
                 </div>
-                <h1 data-i18n="hero-title" class="text-3xl md:text-6xl font-extrabold leading-tight uppercase">
+                <h1 data-i18n="hero-title" class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight uppercase px-2 md:px-0">
                     Membina Masa Depan <span class="text-orange-300">Luar Biasa</span> Untuk OKU.
                 </h1>
-                <p data-i18n="hero-desc" class="text-base md:text-lg text-purple-100 max-w-lg font-medium">
+                <p data-i18n="hero-desc" class="text-sm md:text-lg text-purple-100 max-w-lg font-medium px-4 md:px-0 mx-auto md:mx-0">
                     Kami menyediakan bimbingan pemulihan yang berintegriti untuk melahirkan insan istimewa yang berdikari dan cemerlang.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="#sumbangan" data-i18n="hero-cta-1" class="bg-white text-purple-900 px-8 py-4 rounded-xl font-bold hover:bg-orange-50 shadow-xl transition uppercase text-xs tracking-widest text-center">Sumbang Dana</a>
-                    <a href="#mengenai" data-i18n="hero-cta-2" class="border-2 border-white/50 px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-purple-900 transition uppercase text-xs tracking-widest text-center">Ketahui Kami</a>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start px-6 md:px-0 mt-4 md:mt-0">
+                    <a href="#sumbangan" data-i18n="hero-cta-1" class="w-full sm:w-auto bg-white text-purple-900 px-6 py-3.5 md:py-4 rounded-xl font-bold hover:bg-orange-50 shadow-xl transition uppercase text-xs tracking-widest text-center">Sumbang Dana</a>
+                    <a href="#mengenai" data-i18n="hero-cta-2" class="w-full sm:w-auto border-2 border-white/50 px-6 py-3.5 md:py-4 rounded-xl font-bold hover:bg-white hover:text-purple-900 transition uppercase text-xs tracking-widest text-center">Ketahui Kami</a>
                 </div>
             </div>
-            <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center relative">
-                <div class="relative w-72 h-72 md:w-[500px] md:h-[500px] flex items-center justify-center">
-                    <div class="absolute inset-0 bg-white/20 rounded-full blur-[60px] md:blur-[100px] animate-spin-slow opacity-60"></div>
-                    <div class="absolute inset-0 bg-orange-400/10 rounded-full blur-[40px] md:blur-[70px] animate-heart-custom"></div>
+            <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center relative w-full" data-aos="zoom-in" data-aos-delay="200">
+                <div class="relative w-64 h-64 md:w-[500px] md:h-[500px] flex items-center justify-center">
+                    <div class="absolute inset-0 bg-white/20 rounded-full blur-[50px] md:blur-[100px] animate-spin-slow opacity-60"></div>
+                    <div class="absolute inset-0 bg-orange-400/10 rounded-full blur-[30px] md:blur-[70px] animate-heart-custom"></div>
                     <img src="https://i.postimg.cc/W3Nnbw3f/Gemini-Generated-Image-73oetu73oetu73oe-removebg-preview.png" 
                          alt="Logo Pemulihan Insan Istimewa" 
-                         class="relative z-10 w-full h-auto max-w-[280px] md:max-w-[450px] animate-heart-custom hd-image-shadow">
+                         class="relative z-10 w-full h-auto max-w-[240px] md:max-w-[450px] animate-heart-custom hd-image-shadow">
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Leadership Section -->
-    <section id="organisasi" class="py-16 md:py-20 px-4 bg-gray-100">
-        <div class="max-w-7xl mx-auto text-center uppercase">
-            <h2 data-i18n="leadership-title" class="text-2xl md:text-3xl font-bold text-purple-900 mb-12 md:mb-16 tracking-tighter">Kepimpinan Jawatankuasa</h2>
-            <div class="flex flex-col items-center">
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-lg border-t-4 border-[#f97316] w-full max-w-xs mb-8 md:mb-12 card-hover">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80" alt="Chairman" class="leader-img mb-4">
-                    <h3 data-i18n="leader-name" class="text-base md:text-lg font-bold text-purple-900">Nama Pengerusi</h3>
-                    <p data-i18n="leader-role" class="text-orange-600 text-[10px] font-bold tracking-widest mt-1">Pengerusi PPDK</p>
+    <!-- Profil / Visi & Misi Section -->
+    <section id="mengenai" class="py-16 md:py-28 px-4 relative overflow-hidden bg-white">
+        <!-- Animated Background Blobs -->
+        <div class="absolute top-10 md:top-20 left-5 md:left-10 w-48 h-48 md:w-72 md:h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-[60px] md:blur-[80px] opacity-50 animate-blob"></div>
+        <div class="absolute top-10 md:top-20 right-5 md:right-10 w-48 h-48 md:w-72 md:h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-[60px] md:blur-[80px] opacity-50 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
+                <h2 data-i18n="about-title-main" class="text-xs md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Profil PPDK</h2>
+                <h3 data-i18n="about-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight px-4">Hala Tuju & <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Matlamat</span></h3>
+            </div>
+
+            <!-- Visi & Misi Trigger Button -->
+            <div data-aos="zoom-in" data-aos-delay="100">
+                <div class="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2rem] shadow-xl border-t-4 border-purple-600 transform transition duration-300 hover:shadow-2xl text-center max-w-4xl mx-auto mx-4 md:mx-auto">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <p data-i18n="visimisi-intro" class="text-gray-600 text-sm md:text-lg mb-6 md:mb-8 leading-relaxed font-medium">
+                        Ketahui lebih lanjut mengenai wawasan, matlamat, dan objektif utama dalam memperkasakan komuniti OKU di PPDK Parit Keroma.
+                    </p>
+                    <button onclick="openVisiMisiModal()" class="w-full md:w-auto inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-purple-600 to-purple-900 text-white font-bold py-3.5 md:py-4 px-6 md:px-8 rounded-full active:scale-95 md:hover:scale-105 shadow-md md:hover:shadow-[0_10px_20px_rgba(88,28,135,0.4)] transition-all duration-300 uppercase tracking-widest text-[10px] md:text-xs">
+                        <span data-i18n="visimisi-btn">Lihat Visi & Misi</span>
+                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-5xl">
-                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-purple-600 card-hover">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&q=80" alt="Secretary" class="leader-img mb-4">
-                        <h3 data-i18n="sec-role" class="font-bold text-purple-900 text-xs">Setiausaha</h3>
-                        <p data-i18n="sec-name" class="text-gray-400 text-[10px] mt-1 font-bold uppercase tracking-tighter">NAMA PENUH SETIAUSAHA</p>
+            </div>
+
+            <!-- Enhanced Moto Bar -->
+            <div class="mt-10 md:mt-16 mx-4 md:mx-auto max-w-4xl group" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-gradient-to-r from-[#f97316] via-orange-500 to-purple-600 rounded-[1.5rem] md:rounded-[2.5rem] p-[3px] relative overflow-hidden shadow-lg md:shadow-[0_20px_50px_-15px_rgba(249,115,22,0.4)] transform md:hover:scale-[1.02] transition-all duration-500">
+                    <div class="bg-white rounded-[1.4rem] md:rounded-[2.35rem] px-6 py-10 md:px-8 md:py-16 text-center relative overflow-hidden h-full w-full">
+                        <!-- Background quotes -->
+                        <div class="absolute -left-2 md:-left-4 -top-4 md:-top-8 text-orange-50 font-serif text-[100px] md:text-[150px] leading-none select-none pointer-events-none md:group-hover:-translate-y-2 transition-transform duration-500">"</div>
+                        <div class="absolute -right-2 md:-right-4 -bottom-10 md:-bottom-16 text-purple-50 font-serif text-[100px] md:text-[150px] leading-none select-none pointer-events-none rotate-180 md:group-hover:translate-y-2 transition-transform duration-500">"</div>
+                        
+                        <div class="relative z-10 flex flex-col items-center justify-center gap-4 md:gap-5">
+                            <span data-i18n="moto-title" class="inline-block bg-purple-50 text-purple-700 px-6 py-2 md:px-8 md:py-2.5 rounded-full text-[9px] md:text-xs font-bold uppercase tracking-[0.2em] md:tracking-[0.25em] border border-purple-100 shadow-sm">
+                                Moto Rasmi
+                            </span>
+                            <h3 data-i18n="moto-desc" class="text-2xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-900 to-orange-600 tracking-wider leading-tight drop-shadow-sm px-2">
+                                "BERKHIDMAT UNTUK OKU"
+                            </h3>
+                        </div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-purple-600 card-hover">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=256&q=80" alt="Treasurer" class="leader-img mb-4">
-                        <h3 data-i18n="treas-role" class="font-bold text-purple-900 text-xs">Bendahari</h3>
-                        <p data-i18n="treas-name" class="text-gray-400 text-[10px] mt-1 font-bold uppercase tracking-tighter">NAMA PENUH BENDAHARI</p>
+                </div>
+            </div>
+
+            <!-- Piagam Pelanggan Section (Trigger Button) -->
+            <div class="mt-16 md:mt-24 max-w-4xl mx-auto relative z-10 text-center">
+                <div data-aos="fade-up">
+                    <h2 data-i18n="charter-title-main" class="text-xs md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Komitmen Kami</h2>
+                    <h3 data-i18n="charter-subtitle" class="text-2xl md:text-4xl font-extrabold text-purple-900 tracking-tight px-4">Piagam <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Pelanggan</span></h3>
+                    <div class="w-16 md:w-24 h-1 bg-[#f97316] mx-auto mt-4 md:mt-6 mb-6 md:mb-8 rounded-full"></div>
+                </div>
+                
+                <div data-aos="zoom-in" data-aos-delay="100">
+                    <div class="bg-gray-50 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2rem] shadow-xl border-t-4 border-orange-500 transform transition duration-300 hover:shadow-2xl mx-4 md:mx-auto">
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <p data-i18n="charter-intro" class="text-gray-600 text-sm md:text-lg mb-6 md:mb-8 leading-relaxed font-medium">
+                            Ketahui komitmen, keikhlasan dan dedikasi kami dalam memberikan perkhidmatan pemulihan yang terbaik kepada golongan OKU dan komuniti setempat.
+                        </p>
+                        <button onclick="openCharterModal()" class="w-full md:w-auto inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-orange-500 to-[#f97316] text-white font-bold py-3.5 md:py-4 px-6 md:px-8 rounded-full active:scale-95 md:hover:scale-105 shadow-md md:hover:shadow-[0_10px_20px_rgba(249,115,22,0.4)] transition-all duration-300 uppercase tracking-widest text-[10px] md:text-xs">
+                            <span data-i18n="charter-btn">Lihat Piagam Pelanggan</span>
+                            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-purple-600 card-hover">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&q=80" alt="Supervisor" class="leader-img mb-4">
-                        <h3 data-i18n="sup-role" class="font-bold text-purple-900 text-xs">Penyelia</h3>
-                        <p data-i18n="sup-name" class="text-gray-400 text-[10px] mt-1 font-bold uppercase tracking-tighter">NAMA PENUH PENYELIA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sejarah Penubuhan Section (Trigger Button) -->
+    <section id="sejarah" class="py-16 md:py-24 px-4 bg-purple-50 relative overflow-hidden text-center">
+        <!-- Background accents -->
+        <div class="absolute right-0 top-0 w-48 h-48 md:w-64 md:h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-[60px] opacity-40"></div>
+        <div class="absolute left-0 bottom-0 w-48 h-48 md:w-64 md:h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-[60px] opacity-40"></div>
+
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div data-aos="fade-up">
+                <h2 data-i18n="history-title-main" class="text-xs md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Latar Belakang</h2>
+                <h3 data-i18n="history-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight px-4">Sejarah <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Penubuhan</span></h3>
+                <div class="w-16 md:w-24 h-1 bg-[#f97316] mx-auto mt-4 md:mt-6 mb-6 md:mb-8 rounded-full"></div>
+            </div>
+            
+            <div data-aos="zoom-in" data-aos-delay="100">
+                <div class="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2rem] shadow-xl border-t-4 border-purple-600 transform transition duration-300 hover:shadow-2xl mx-auto">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                        <svg class="w-6 h-6 md:w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
+                    <p data-i18n="history-intro" class="text-gray-600 text-sm md:text-lg mb-6 md:mb-8 leading-relaxed font-medium">
+                        PDK Daerah Muar bermula sejak 1992 dan telah melalui pelbagai fasa perkembangan untuk terus memberi khidmat terbaik kepada golongan OKU.
+                    </p>
+                    <button onclick="openHistoryModal()" class="w-full md:w-auto inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-purple-700 to-purple-900 text-white font-bold py-3.5 md:py-4 px-6 md:px-8 rounded-full active:scale-95 md:hover:scale-105 shadow-md md:hover:shadow-[0_10px_20px_rgba(88,28,135,0.4)] transition-all duration-300 uppercase tracking-widest text-[10px] md:text-xs">
+                        <span data-i18n="history-btn">Baca Sejarah Penuh</span>
+                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section (Trigger Button) -->
+    <section id="organisasi" class="py-16 md:py-24 px-4 bg-gray-100 relative overflow-hidden text-center">
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div data-aos="fade-up">
+                <h2 data-i18n="leadership-title-main" class="text-xs md:text-base font-bold text-purple-600 uppercase tracking-[0.3em] mb-2">Carta Organisasi</h2>
+                <h3 data-i18n="leadership-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight px-4">Kepimpinan <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-500">Jawatankuasa</span></h3>
+                <div class="w-16 md:w-24 h-1 bg-purple-300 mx-auto mt-4 md:mt-6 mb-6 md:mb-8 rounded-full"></div>
+            </div>
+            
+            <div data-aos="zoom-in" data-aos-delay="100">
+                <div class="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2rem] shadow-xl border-t-4 border-[#f97316] transform transition duration-300 hover:shadow-2xl mx-auto">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <p data-i18n="leadership-intro" class="text-gray-600 text-sm md:text-lg mb-6 md:mb-8 leading-relaxed font-medium">
+                        Kenali barisan ahli jawatankuasa dan tenaga pengajar yang berdedikasi dalam menerajui kecemerlangan PPDK Parit Keroma.
+                    </p>
+                    <button onclick="openOrgModal()" class="w-full md:w-auto inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-purple-600 to-purple-900 text-white font-bold py-3.5 md:py-4 px-6 md:px-8 rounded-full active:scale-95 md:hover:scale-105 shadow-md md:hover:shadow-[0_10px_20px_rgba(88,28,135,0.4)] transition-all duration-300 uppercase tracking-widest text-[10px] md:text-xs">
+                        <span data-i18n="leadership-btn">Lihat Carta Organisasi</span>
+                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contribution Section -->
-    <section id="sumbangan" class="py-16 md:py-20 px-4 bg-purple-900 text-white relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-[#f97316] opacity-10 rounded-full -mr-32 -mt-32"></div>
+    <section id="sumbangan" class="py-16 md:py-24 px-4 bg-purple-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-[#f97316] opacity-10 rounded-full -mr-24 -mt-24 md:-mr-32 md:-mt-32"></div>
         <div class="max-w-7xl mx-auto relative z-10 text-center md:text-left">
-            <div class="mb-10 md:mb-12 bg-white/10 backdrop-blur-md border border-white/20 p-5 md:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between shadow-2xl gap-6">
-                <div class="flex flex-col md:flex-row items-center">
-                    <div class="bg-[#f97316] p-4 rounded-2xl md:mr-5 shadow-lg mb-4 md:mb-0">
-                        <svg class="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+            <div data-aos="fade-down">
+                <div class="mb-8 md:mb-12 bg-white/10 backdrop-blur-md border border-white/20 p-5 md:p-8 rounded-[1.5rem] md:rounded-2xl flex flex-col md:flex-row items-center justify-between shadow-2xl gap-4 md:gap-6">
+                    <div class="flex flex-col md:flex-row items-center text-center md:text-left">
+                        <div class="bg-[#f97316] p-3 md:p-4 rounded-xl md:rounded-2xl md:mr-5 shadow-lg mb-3 md:mb-0">
+                            <svg class="w-6 h-6 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+                        </div>
+                        <div>
+                            <h3 data-i18n="tax-title" class="text-lg md:text-2xl font-bold">Lulus Pelepasan Cukai</h3>
+                            <p data-i18n="tax-desc" class="text-purple-200 text-[11px] md:text-sm mt-1">Sumbangan anda layak mendapat potongan cukai LHDN.</p>
+                            <p class="text-[8px] md:text-[10px] text-orange-300 font-bold mt-1.5 md:mt-2 uppercase tracking-[0.2em]">Seksyen 44(6) Akta Cukai Pendapatan 1967</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 data-i18n="tax-title" class="text-xl md:text-2xl font-bold">Lulus Pelepasan Cukai</h3>
-                        <p data-i18n="tax-desc" class="text-purple-200 text-xs md:text-sm mt-1 text-left">Sumbangan anda layak mendapat potongan cukai LHDN.</p>
-                        <p class="text-[9px] md:text-[10px] text-orange-300 font-bold mt-2 uppercase tracking-[0.2em]">Seksyen 44(6) Akta Cukai Pendapatan 1967</p>
-                    </div>
+                    <div data-i18n="tax-badge" class="bg-white/20 px-5 md:px-6 py-2 rounded-full font-bold text-[9px] md:text-[10px] border border-white/30 uppercase tracking-widest text-white mt-2 md:mt-0">Resit Rasmi Disediakan</div>
                 </div>
-                <div data-i18n="tax-badge" class="bg-white/20 px-6 py-2 rounded-full font-bold text-[10px] border border-white/30 uppercase tracking-widest text-white">Resit Rasmi Disediakan</div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                <div class="bg-white text-gray-800 p-6 md:p-8 rounded-3xl shadow-2xl card-hover border-b-8 border-[#f97316] text-center flex flex-col">
-                    <h3 data-i18n="infaq-title" class="text-lg md:text-xl font-bold mb-6 text-purple-900 border-b pb-4 uppercase tracking-tighter">Infaq Digital</h3>
-                    <div class="grid grid-cols-3 md:grid-cols-1 gap-2 md:gap-4 mb-8">
-                        <button onclick="selectAmount(30)" class="py-3 md:py-4 border-2 border-purple-100 rounded-xl hover:border-purple-600 hover:bg-purple-50 font-bold transition uppercase text-[10px]">RM 30</button>
-                        <button onclick="selectAmount(50)" class="py-3 md:py-4 border-2 border-purple-100 rounded-xl hover:border-purple-600 hover:bg-purple-50 font-bold transition uppercase text-[10px]">RM 50</button>
-                        <button onclick="selectAmount(100)" class="py-3 md:py-4 border-2 border-purple-100 rounded-xl hover:border-purple-600 hover:bg-purple-50 font-bold transition uppercase text-[10px]">RM 100</button>
+                <!-- Infaq Card -->
+                <div data-aos="fade-up" data-aos-delay="100" class="h-full">
+                    <div class="bg-white text-gray-800 p-6 md:p-8 rounded-[1.5rem] md:rounded-3xl shadow-2xl card-hover border-b-8 border-[#f97316] text-center flex flex-col h-full">
+                        <h3 data-i18n="infaq-title" class="text-base md:text-xl font-bold mb-4 md:mb-6 text-purple-900 border-b pb-3 md:pb-4 uppercase tracking-tighter">Infaq Digital</h3>
+                        <div class="grid grid-cols-3 md:grid-cols-1 gap-2 md:gap-4 mb-6 md:mb-8">
+                            <button onclick="selectAmount(30)" class="py-2.5 md:py-4 border-2 border-purple-100 rounded-xl md:hover:border-purple-600 md:hover:bg-purple-50 font-bold transition uppercase text-[10px] active:bg-purple-100">RM 30</button>
+                            <button onclick="selectAmount(50)" class="py-2.5 md:py-4 border-2 border-purple-100 rounded-xl md:hover:border-purple-600 md:hover:bg-purple-50 font-bold transition uppercase text-[10px] active:bg-purple-100">RM 50</button>
+                            <button onclick="selectAmount(100)" class="py-2.5 md:py-4 border-2 border-purple-100 rounded-xl md:hover:border-purple-600 md:hover:bg-purple-50 font-bold transition uppercase text-[10px] active:bg-purple-100">RM 100</button>
+                        </div>
+                        <button data-i18n="infaq-cta" class="mt-auto w-full bg-purple-700 text-white py-3.5 md:py-4 rounded-xl font-bold active:bg-purple-800 shadow-lg transition uppercase text-[10px] md:text-xs tracking-widest">Sumbang Sekarang</button>
                     </div>
-                    <button data-i18n="infaq-cta" class="mt-auto w-full bg-purple-700 text-white py-4 rounded-xl font-bold hover:bg-purple-800 shadow-lg transition uppercase text-[10px] tracking-widest">Sumbang Sekarang</button>
                 </div>
 
-                <div class="bg-purple-800/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-xl border border-purple-700 flex flex-col justify-between text-center md:text-left">
-                    <div>
-                        <h3 data-i18n="bank-title" class="text-base md:text-xl font-bold mb-6 uppercase tracking-widest text-xs text-purple-200 text-center">Akaun Bank Rasmi</h3>
-                        <div class="bg-purple-950 p-4 md:p-6 rounded-2xl space-y-4 border border-white/5">
-                            <div class="text-left text-left">
-                                <p data-i18n="acc-name-label" class="text-purple-400 text-[8px] md:text-[10px] uppercase font-bold tracking-tighter">Nama Akaun</p>
-                                <p class="font-bold text-xs md:text-sm uppercase leading-tight text-white">PPDK PARIT KEROMA MUAR</p>
-                            </div>
-                            <div class="text-left text-left">
-                                <p data-i18n="bank-label" class="text-purple-400 text-[8px] md:text-[10px] uppercase font-bold tracking-tighter">Bank</p>
-                                <p class="font-bold text-sm md:text-orange-400 text-orange-400">MAYBANK ISLAMIC</p>
-                            </div>
-                            <div class="text-left text-left">
-                                <p data-i18n="acc-num-label" class="text-purple-400 text-[8px] md:text-[10px] uppercase font-bold tracking-tighter">No. Akaun</p>
-                                <p class="font-bold text-lg md:text-2xl tracking-widest text-white">5510 1234 5678</p>
+                <!-- Bank Card -->
+                <div data-aos="fade-up" data-aos-delay="200" class="h-full">
+                    <div class="bg-purple-800/50 backdrop-blur-sm p-6 md:p-8 rounded-[1.5rem] md:rounded-3xl shadow-xl border border-purple-700 flex flex-col justify-between text-center md:text-left h-full">
+                        <div>
+                            <h3 data-i18n="bank-title" class="text-sm md:text-xl font-bold mb-4 md:mb-6 uppercase tracking-widest text-purple-200 text-center">Akaun Bank Rasmi</h3>
+                            <div class="bg-purple-950 p-4 md:p-6 rounded-[1.2rem] md:rounded-2xl space-y-3 md:space-y-4 border border-white/5">
+                                <div class="text-left">
+                                    <p data-i18n="acc-name-label" class="text-purple-400 text-[8px] md:text-[10px] uppercase font-bold tracking-tighter">Nama Akaun</p>
+                                    <p class="font-bold text-[11px] md:text-sm uppercase leading-tight text-white">PPDK PARIT KEROMA MUAR</p>
+                                </div>
+                                <div class="text-left">
+                                    <p data-i18n="bank-label" class="text-purple-400 text-[8px] md:text-[10px] uppercase font-bold tracking-tighter">Bank</p>
+                                    <p class="font-bold text-xs md:text-sm text-orange-400">MAYBANK ISLAMIC</p>
+                                </div>
+                                <div class="text-left">
+                                    <p data-i18n="acc-num-label" class="text-purple-400 text-[8px] md:text-[10px] uppercase font-bold tracking-tighter">No. Akaun</p>
+                                    <p class="font-bold text-base md:text-2xl tracking-widest text-white">5510 1234 5678</p>
+                                </div>
                             </div>
                         </div>
+                        <p data-i18n="bank-note" class="mt-5 md:mt-6 text-[8px] md:text-[10px] text-purple-300 italic text-center leading-relaxed font-medium">WhatsApp slip transaksi & No. KP untuk resit pelepasan cukai.</p>
                     </div>
-                    <p data-i18n="bank-note" class="mt-6 text-[9px] md:text-[10px] text-purple-300 italic text-center leading-relaxed font-medium">WhatsApp slip transaksi & No. KP untuk resit pelepasan cukai.</p>
                 </div>
 
-                <div class="bg-[#f97316] p-6 md:p-8 rounded-3xl shadow-xl card-hover flex flex-col justify-between text-center md:text-left">
-                    <div>
-                        <h3 data-i18n="csr-title" class="text-lg md:text-xl font-bold mb-4 text-white uppercase tracking-tighter text-center">Kerjasama NGO & CSR</h3>
-                        <p data-i18n="csr-desc" class="text-white opacity-90 mb-6 text-xs md:text-sm text-center">Kolaborasi untuk tajaan peralatan fisioterapi, kelas kemahiran, atau wakaf van PPDK.</p>
-                        <ul class="space-y-3 mb-6 text-white text-[10px] md:text-xs font-bold uppercase tracking-wide">
-                            <li class="flex items-center"><span class="mr-2 text-purple-900 text-lg">✦</span> <span data-i18n="csr-opt-1">Penajaan Fasiliti</span></li>
-                            <li class="flex items-center"><span class="mr-2 text-purple-900 text-lg">✦</span> <span data-i18n="csr-opt-2">Inisiatif CSR</span></li>
-                            <li class="flex items-center"><span class="mr-2 text-purple-900 text-lg">✦</span> <span data-i18n="csr-opt-3">Wakaf Peralatan</span></li>
-                        </ul>
+                <!-- CSR Card -->
+                <div data-aos="fade-up" data-aos-delay="300" class="h-full">
+                    <div class="bg-[#f97316] p-6 md:p-8 rounded-[1.5rem] md:rounded-3xl shadow-xl card-hover flex flex-col justify-between text-center md:text-left h-full">
+                        <div>
+                            <h3 data-i18n="csr-title" class="text-base md:text-xl font-bold mb-3 md:mb-4 text-white uppercase tracking-tighter text-center">Kerjasama NGO & CSR</h3>
+                            <p data-i18n="csr-desc" class="text-white opacity-90 mb-5 md:mb-6 text-[11px] md:text-sm text-center px-2 md:px-0">Kolaborasi untuk tajaan peralatan fisioterapi, kelas kemahiran, atau wakaf van PPDK.</p>
+                            <ul class="space-y-2 md:space-y-3 mb-6 text-white text-[10px] md:text-xs font-bold uppercase tracking-wide inline-block text-left mx-auto md:mx-0 w-max">
+                                <li class="flex items-center"><span class="mr-2 text-purple-900 text-sm md:text-lg">✦</span> <span data-i18n="csr-opt-1">Penajaan Fasiliti</span></li>
+                                <li class="flex items-center"><span class="mr-2 text-purple-900 text-sm md:text-lg">✦</span> <span data-i18n="csr-opt-2">Inisiatif CSR</span></li>
+                                <li class="flex items-center"><span class="mr-2 text-purple-900 text-sm md:text-lg">✦</span> <span data-i18n="csr-opt-3">Wakaf Peralatan</span></li>
+                            </ul>
+                        </div>
+                        <a href="https://wa.me/60123456789" data-i18n="csr-cta" class="block w-full text-center bg-purple-900 text-white py-3.5 md:py-4 rounded-xl font-bold active:bg-purple-950 transition shadow-lg uppercase text-[10px] md:text-xs">Hubungi Urusetia</a>
                     </div>
-                    <a href="https://wa.me/60123456789" data-i18n="csr-cta" class="block text-center bg-purple-900 text-white py-4 rounded-xl font-bold hover:bg-purple-950 transition shadow-lg uppercase text-[10px]">Hubungi Urusetia</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq" class="py-16 md:py-20 px-4 bg-gray-50 border-t border-gray-100">
-        <div class="max-w-4xl mx-auto">
-            <h2 data-i18n="faq-title" class="text-2xl md:text-3xl font-bold text-purple-900 text-center mb-10 md:mb-12 uppercase tracking-tighter text-center">Soalan Lazim (FAQ)</h2>
-            <div id="faq-container" class="space-y-3 md:space-y-4 text-xs md:text-sm font-medium"></div>
         </div>
     </section>
 
     <!-- Contact & Map -->
-    <section id="hubungi" class="py-16 md:py-24 px-4 bg-white text-center">
+    <section id="hubungi" class="py-12 md:py-24 px-4 bg-white text-center overflow-hidden">
         <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-center lg:text-left">
-                <div class="space-y-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center text-center lg:text-left">
+                <div class="space-y-6 md:space-y-10 order-2 lg:order-1" data-aos="fade-right">
                     <h2 data-i18n="contact-title" class="text-2xl md:text-3xl font-bold text-purple-900 border-l-0 lg:border-l-4 border-purple-600 lg:pl-4 uppercase tracking-tighter">Hubungi Kami</h2>
-                    <div class="space-y-6 text-left">
-                        <div class="flex items-start justify-center lg:justify-start">
-                            <div class="bg-purple-100 p-3 rounded-xl text-purple-600 mr-4">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <div class="space-y-5 md:space-y-6 text-left max-w-sm mx-auto lg:max-w-full">
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2.5 md:p-3 rounded-xl text-purple-600 mr-3 md:mr-4 shrink-0">
+                                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             </div>
-                            <div class="text-left text-left text-left">
-                                <p data-i18n="loc-label" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 text-left">Lokasi</p>
-                                <p class="text-gray-700 text-xs md:text-sm font-bold uppercase">No 123, Jalan Abdul Rahman, Parit Keroma Laut, 84000 Muar, Johor.</p>
+                            <div>
+                                <p data-i18n="loc-label" class="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Lokasi</p>
+                                <p class="text-gray-700 text-[11px] md:text-sm font-bold uppercase leading-tight">KM 3 Jalan Abdul Rahman, 84000 Muar, Johor.</p>
                             </div>
                         </div>
-                        <div class="flex items-start justify-center lg:justify-start text-left">
-                            <div class="bg-orange-100 p-3 rounded-xl text-orange-600 mr-4">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-2.5 md:p-3 rounded-xl text-green-600 mr-3 md:mr-4 shrink-0">
+                                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                             </div>
-                            <div class="text-left text-left text-left">
-                                <p data-i18n="email-label" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 text-left text-left">E-mel</p>
-                                <p class="text-gray-700 text-xs md:text-sm font-bold">ppdkparitkeroma@example.com</p>
+                            <div>
+                                <p data-i18n="phone-label" class="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">No. Tel / HP</p>
+                                <p class="text-gray-700 text-[11px] md:text-sm font-bold">06-955 6140</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 p-2.5 md:p-3 rounded-xl text-orange-600 mr-3 md:mr-4 shrink-0">
+                                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div>
+                                <p data-i18n="email-label" class="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">E-mel</p>
+                                <p class="text-gray-700 text-[11px] md:text-sm font-bold truncate max-w-[200px] md:max-w-none">pdkptkeromamuar@yahoo.com</p>
                             </div>
                         </div>
                     </div>
-                    <div class="pt-6">
-                        <a href="https://wa.me/60123456789" data-i18n="vol-cta" class="inline-block bg-purple-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition uppercase text-xs tracking-widest shadow-xl text-center">Daftar Sukarelawan</a>
+                    <div class="pt-2 md:pt-6">
+                        <a href="https://wa.me/60123456789" data-i18n="vol-cta" class="inline-block w-full lg:w-auto bg-purple-900 text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-bold active:bg-orange-600 transition uppercase text-[10px] md:text-xs tracking-widest shadow-xl text-center">Daftar Sukarelawan</a>
                     </div>
                 </div>
                 
-                <div class="w-full">
-                    <div class="bg-gray-100 rounded-3xl p-8 text-center border-4 border-white shadow-2xl relative overflow-hidden group text-center">
-                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-200 rounded-full opacity-20 group-hover:scale-110 transition duration-500 text-center"></div>
-                        <div class="relative z-10 text-center text-center">
-                            <div class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md text-center">
-                                <svg class="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <div class="w-full order-1 lg:order-2" data-aos="fade-left">
+                    <div class="bg-gray-100 rounded-[1.5rem] md:rounded-3xl p-6 md:p-8 text-center border-4 border-white shadow-xl md:shadow-2xl relative overflow-hidden group">
+                        <div class="absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 bg-purple-200 rounded-full opacity-20 md:group-hover:scale-110 transition duration-500"></div>
+                        <div class="relative z-10 text-center">
+                            <div class="bg-white w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-md">
+                                <svg class="w-8 h-8 md:w-10 md:h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             </div>
-                            <h3 data-i18n="loc-title" class="text-xl font-bold text-purple-950 mb-2 uppercase tracking-tight text-center">Kunjungi Pusat Kami</h3>
-                            <p data-i18n="loc-desc" class="text-sm text-gray-500 mb-8 max-w-xs mx-auto font-medium text-center">Klik butang di bawah untuk mendapatkan arah pemanduan terus ke PPDK Parit Keroma.</p>
-                            <a href="https://www.google.com/maps/place/Pusat+Pemulihan+Dalam+Komuniti+Parit+Keroma/@2.0303955,102.5953652,13z/data=!4m16!1m9!4m8!1m0!1m6!1m2!1s0x31d1b9817e1fbfcf:0x5912ac73b19254e1!2sPusat+Pemulihan+Dalam+Komuniti+Parit+Keroma,+KM+3,+Jln+Abdul+Rahman,+Kampung+Parit+Keroma,+84000+Muar,+Johor!2m2!1d102.5802664!2d2.0211623!3m5!1s0x31d1b9817e1fbfcf:0x5912ac73b19254e1!8m2!3d2.0211602!4d102.5802701!16s%2Fg%2F1pzrqwmbm?entry=ttu" target="_blank" data-i18n="loc-cta" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-orange-200 inline-block uppercase text-xs tracking-widest text-center">Buka Lokasi di Peta</a>
+                            <h3 data-i18n="loc-title" class="text-lg md:text-xl font-bold text-purple-950 mb-2 uppercase tracking-tight">Kunjungi Pusat Kami</h3>
+                            <p data-i18n="loc-desc" class="text-xs md:text-sm text-gray-500 mb-6 md:mb-8 max-w-[250px] md:max-w-xs mx-auto font-medium">Klik butang di bawah untuk mendapatkan arah pemanduan terus ke PPDK Parit Keroma.</p>
+                            <a href="https://www.google.com/maps/place/Pusat+Pemulihan+Dalam+Komuniti+Parit+Keroma/@2.0303955,102.5953652,13z/data=!4m16!1m9!4m8!1m0!1m6!1m2!1s0x31d1b9817e1fbfcf:0x5912ac73b19254e1!2sPusat+Pemulihan+Dalam+Komuniti+Parit+Keroma,+KM+3,+Jln+Abdul+Rahman,+Kampung+Parit+Keroma,+84000+Muar,+Johor!2m2!1d102.5802664!2d2.0211623!3m5!1s0x31d1b9817e1fbfcf:0x5912ac73b19254e1!8m2!3d2.0211602!4d102.5802701!16s%2Fg%2F1pzrqwmbm?entry=ttu" target="_blank" data-i18n="loc-cta" class="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all shadow-lg inline-block uppercase text-[10px] md:text-xs tracking-widest text-center">Buka Lokasi di Peta</a>
                         </div>
                     </div>
                 </div>
@@ -328,29 +460,369 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-purple-950 text-purple-300 py-12 md:py-16 px-4 text-center">
-        <div class="max-w-7xl mx-auto text-center">
-            <div class="flex flex-col items-center mb-8 md:mb-10 text-center">
-                <div class="bg-white p-2 rounded-2xl mb-6 shadow-2xl">
-                     <img src="https://i.postimg.cc/T1ww7Z4m/pdk-logo-removebg-preview.png" alt="Logo PPDK" class="h-12 md:h-16 w-auto">
+    <!-- FAQ Section (Trigger Button) -->
+    <section id="faq" class="py-16 md:py-24 px-4 bg-gray-50 border-t border-gray-100 relative overflow-hidden text-center">
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div data-aos="fade-up">
+                <h2 data-i18n="faq-title-main" class="text-xs md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Maklumat Tambahan</h2>
+                <h3 data-i18n="faq-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight px-4">Soalan <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Lazim (FAQ)</span></h3>
+                <div class="w-16 md:w-24 h-1 bg-[#f97316] mx-auto mt-4 md:mt-6 mb-6 md:mb-8 rounded-full"></div>
+            </div>
+            
+            <div data-aos="zoom-in" data-aos-delay="100">
+                <div class="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2rem] shadow-xl border-t-4 border-purple-600 transform transition duration-300 hover:shadow-2xl mx-auto">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <p data-i18n="faq-intro" class="text-gray-600 text-sm md:text-lg mb-6 md:mb-8 leading-relaxed font-medium">
+                        Dapatkan jawapan kepada persoalan yang sering ditanya mengenai pendaftaran, operasi, dan perkhidmatan di PPDK Parit Keroma.
+                    </p>
+                    <button onclick="openFaqModal()" class="w-full md:w-auto inline-flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-purple-700 to-purple-900 text-white font-bold py-3.5 md:py-4 px-6 md:px-8 rounded-full active:scale-95 md:hover:scale-105 shadow-md md:hover:shadow-[0_10px_20px_rgba(88,28,135,0.4)] transition-all duration-300 uppercase tracking-widest text-[10px] md:text-xs">
+                        <span data-i18n="faq-btn">Lihat Soalan Lazim</span>
+                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
                 </div>
-                <h3 class="text-white font-bold text-lg md:text-xl uppercase tracking-tighter text-center">PPDK Parit Keroma</h3>
-                <p data-i18n="footer-moto" class="text-orange-400 font-bold text-[9px] md:text-[10px] mt-2 tracking-[0.4em] uppercase italic text-center">"Bersama Membantu Insan Istimewa"</p>
-                <p class="text-purple-400 text-[8px] md:text-[10px] mt-6 font-mono border border-white/10 px-4 py-1 rounded-full uppercase text-center">Pendaftaran: PPM-001-23-456789</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visi & Misi Modal Popup -->
+    <div id="visiMisiModal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-purple-950/90 md:bg-purple-950/80 backdrop-blur-sm px-2 py-4 md:px-4 md:py-6 opacity-0 transition-opacity duration-300">
+        <!-- Close Button (Fixed outside container on mobile, inside on desktop) -->
+        <button onclick="closeVisiMisiModal()" class="fixed md:absolute top-4 right-4 z-[10001] bg-white text-gray-600 hover:text-red-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-2xl w-full max-w-6xl max-h-[92vh] overflow-y-auto relative flex flex-col transform scale-95 transition-transform duration-300" id="visiMisiModalContent">
+            
+            <!-- Modal Content -->
+            <div class="px-5 pt-12 pb-10 md:px-12 md:pt-14 md:pb-16">
+                <div class="text-center mb-10 md:mb-16">
+                    <h2 data-i18n="about-title-main" class="text-[10px] md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Profil PPDK</h2>
+                    <h3 data-i18n="about-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight">Hala Tuju & <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Matlamat</span></h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-stretch">
+                    <!-- Visi Card -->
+                    <div class="relative rounded-[1.5rem] md:rounded-[2.5rem] bg-gradient-to-br from-purple-900 via-purple-800 to-purple-600 p-6 md:p-14 shadow-lg overflow-hidden flex flex-col justify-center">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 md:w-64 md:h-64 bg-purple-500 rounded-full blur-3xl opacity-50"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 md:w-20 md:h-20 bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl border border-white/20 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </div>
+                            <h3 data-i18n="visi-title" class="text-2xl md:text-5xl font-black text-white mb-3 md:mb-6 tracking-wide">VISI</h3>
+                            <p data-i18n="visi-desc" class="text-purple-100 text-sm md:text-xl leading-relaxed font-light">
+                                Melahirkan masyarakat Orang Kurang Upaya (OKU) yang berdikari dan cemerlang serta membangun PDK kearah teknologi maklumat.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Misi Card -->
+                    <div class="relative rounded-[1.5rem] md:rounded-[2.5rem] bg-white p-6 md:p-14 shadow-lg border border-gray-100 overflow-hidden flex flex-col justify-center">
+                        <div class="absolute -left-10 -bottom-10 w-32 h-32 md:w-64 md:h-64 bg-orange-100 rounded-full blur-3xl opacity-50"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 md:w-20 md:h-20 bg-orange-50 rounded-xl md:rounded-2xl border border-orange-100 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6 md:w-10 md:h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"/></svg>
+                            </div>
+                            <h3 data-i18n="misi-title" class="text-2xl md:text-5xl font-black text-purple-900 mb-3 md:mb-6 tracking-wide">MISI</h3>
+                            <p data-i18n="misi-desc" class="text-gray-600 text-sm md:text-xl leading-relaxed font-medium">
+                                Memberi bimbingan, pemulihan dan kemahiran kepada kalangan Orang Kurang Upaya (OKU) agar mereka boleh menjalani kehidupan, berkomunikasi, berdikari dan mengendali teknologi ICT dalam komuniti cemerlang.
+                            </p>
+
+                            <!-- Highlight Tags -->
+                            <div class="flex flex-wrap gap-2 md:gap-3 mt-6 md:mt-8">
+                                <span data-i18n="core-1" class="px-3 py-1.5 md:px-5 md:py-2.5 bg-purple-50 text-purple-900 rounded-full text-[9px] md:text-xs font-bold uppercase tracking-widest border border-purple-100">Bimbingan</span>
+                                <span data-i18n="core-2" class="px-3 py-1.5 md:px-5 md:py-2.5 bg-purple-50 text-purple-900 rounded-full text-[9px] md:text-xs font-bold uppercase tracking-widest border border-purple-100">Berdikari</span>
+                                <span data-i18n="core-3" class="px-3 py-1.5 md:px-5 md:py-2.5 bg-orange-50 text-orange-700 rounded-full text-[9px] md:text-xs font-bold uppercase tracking-widest border border-orange-100">Kemahiran</span>
+                                <span data-i18n="core-4" class="px-3 py-1.5 md:px-5 md:py-2.5 bg-orange-50 text-orange-700 rounded-full text-[9px] md:text-xs font-bold uppercase tracking-widest border border-orange-100">Cemerlang</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal Popup -->
+    <div id="historyModal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-purple-950/90 md:bg-purple-950/80 backdrop-blur-sm px-2 py-4 md:px-4 md:py-6 opacity-0 transition-opacity duration-300">
+        
+        <!-- Close Button (Fixed outside container on mobile) -->
+        <button onclick="closeHistoryModal()" class="fixed md:absolute top-4 right-4 z-[10001] bg-white text-gray-600 hover:text-red-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto relative flex flex-col transform scale-95 transition-transform duration-300" id="historyModalContent">
+            
+            <!-- Modal Content (Timeline) -->
+            <div class="px-4 pt-12 pb-10 md:px-12 md:pt-14 md:pb-16 overflow-x-hidden">
+                <div class="text-center mb-10 md:mb-16">
+                    <h2 data-i18n="history-title-main" class="text-[10px] md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Latar Belakang</h2>
+                    <h3 data-i18n="history-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight">Sejarah <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Penubuhan</span></h3>
+                    <div class="w-16 md:w-24 h-1 bg-[#f97316] mx-auto mt-4 md:mt-6 rounded-full"></div>
+                </div>
+
+                <div class="relative max-w-5xl mx-auto">
+                    <!-- Vertical Line for Desktop (Hidden on mobile) -->
+                    <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1.5 h-full bg-gradient-to-b from-purple-200 via-orange-200 to-purple-200 rounded-full"></div>
+
+                    <!-- Era 1: 1992 - 1995 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-16 relative w-full group">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-purple-600 border-4 border-purple-50 shadow-xl items-center justify-center z-10 md:group-hover:bg-[#f97316] md:group-hover:scale-125 transition-all duration-300">
+                            <div class="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                        <div class="w-full md:w-5/12 mb-0 md:pr-10 text-left md:text-right border-l-4 md:border-l-0 border-purple-600 pl-4 md:pl-0">
+                            <div class="bg-gray-50 p-5 md:p-8 rounded-2xl md:rounded-[2rem] border border-gray-100 shadow-sm md:hover:-translate-y-2 md:hover:shadow-xl transition-all duration-300 text-left">
+                                <span data-i18n="hist-1-date" class="inline-block bg-purple-100 text-purple-800 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest mb-3 md:mb-5 shadow-sm">1992 - 1995</span>
+                                <img src="https://i.postimg.cc/1tLLysDg/Screenshot_2026_04_10_130134.png" alt="Sejarah 1992" class="w-full h-36 md:h-56 object-cover rounded-xl md:rounded-2xl mb-4 md:mb-5 shadow-inner">
+                                <p data-i18n="hist-1-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed font-medium">
+                                    PDK Daerah Muar pada peringkat awalnya ditubuhkan pada 12 Sept 1992 di PDK Parit Keroma atas inisiatif Jabatan Kebajikan Masyarakat Daerah Muar dengan menumpang di bangunan Pandu Puteri di Jalan Timbalan Muar. Ketika itu, bilangan pelatih seramai 25 orang (7 lelaki, 18 perempuan) dengan kecacatan fizikal dan sindrom down serta dikendalikan oleh 2 orang tenaga pengajar.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-5/12 w-full"></div>
+                    </div>
+
+                    <!-- Era 2: 1995 - 2008 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center justify-between mb-8 md:mb-16 relative w-full group">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-[#f97316] border-4 border-purple-50 shadow-xl items-center justify-center z-10 md:group-hover:bg-purple-600 md:group-hover:scale-125 transition-all duration-300">
+                            <div class="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                        <div class="w-full md:w-5/12 mb-0 md:pl-10 text-left border-l-4 md:border-l-0 border-[#f97316] pl-4 md:pl-0">
+                            <div class="bg-gray-50 p-5 md:p-8 rounded-2xl md:rounded-[2rem] border border-gray-100 shadow-sm md:hover:-translate-y-2 md:hover:shadow-xl transition-all duration-300 text-left">
+                                <span data-i18n="hist-2-date" class="inline-block bg-orange-100 text-orange-800 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest mb-3 md:mb-5 shadow-sm">1995 - 2008</span>
+                                <img src="https://i.postimg.cc/4NvrTCyg/Screenshot_2026_04_10_130232.png" alt="Sejarah 1995" class="w-full h-36 md:h-56 object-cover rounded-xl md:rounded-2xl mb-4 md:mb-5 shadow-inner">
+                                <p data-i18n="hist-2-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed font-medium">
+                                    Pada tahun 1995, PDK telah berpindah ke Bangunan Rumah Orang Tua Parit Keroma, Jalan Abdul Rahman, Muar. Bangunan ini dirasmikan oleh Y.A.B Datin Prof. Jamilah binti Ariffin, Yang DiPertua JUWITA Negeri Johor. Perpindahan ini bertujuan untuk menampung bilangan OKU yang semakin bertambah dan memerlukan perkhidmatan penjagaan.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-5/12 w-full"></div>
+                    </div>
+
+                    <!-- Era 3: 2009 - 2013 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-16 relative w-full group">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-purple-600 border-4 border-purple-50 shadow-xl items-center justify-center z-10 md:group-hover:bg-[#f97316] md:group-hover:scale-125 transition-all duration-300">
+                            <div class="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                        <div class="w-full md:w-5/12 mb-0 md:pr-10 text-left md:text-right border-l-4 md:border-l-0 border-purple-600 pl-4 md:pl-0">
+                            <div class="bg-gray-50 p-5 md:p-8 rounded-2xl md:rounded-[2rem] border border-gray-100 shadow-sm md:hover:-translate-y-2 md:hover:shadow-xl transition-all duration-300 text-left">
+                                <span data-i18n="hist-3-date" class="inline-block bg-purple-100 text-purple-800 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest mb-3 md:mb-5 shadow-sm">2009 - 2013</span>
+                                <img src="https://i.postimg.cc/CxF9hvns/Screenshot_2026_04_10_130305.png" alt="Sejarah 2009" class="w-full h-36 md:h-56 object-cover rounded-xl md:rounded-2xl mb-4 md:mb-5 shadow-inner">
+                                <p data-i18n="hist-3-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed font-medium">
+                                    Pada 2009, PDK berpindah ke bangunan lain di Jalan Temenggong Ahmad, Parit Keroma kerana bangunan sedia ada uzur dan tidak selamat atas nasihat JKR Daerah Muar. Bangunan ini disewa RM2,000 sebulan. Dalam pada itu, Kerajaan Negeri Johor menerusi JKM telah menyalurkan peruntukan untuk membina bangunan baharu PDK di tapak asal.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-5/12 w-full"></div>
+                    </div>
+
+                    <!-- Era 4: 2014 - Sekarang -->
+                    <div class="flex flex-col md:flex-row-reverse items-center justify-between relative w-full group">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-[#f97316] border-4 border-purple-50 shadow-xl items-center justify-center z-10 md:group-hover:bg-purple-600 md:group-hover:scale-125 transition-all duration-300">
+                            <div class="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                        <div class="w-full md:w-5/12 text-left border-l-4 md:border-l-0 border-[#f97316] pl-4 md:pl-0">
+                            <div class="bg-gray-50 p-5 md:p-8 rounded-2xl md:rounded-[2rem] border border-gray-100 shadow-sm md:hover:-translate-y-2 md:hover:shadow-xl transition-all duration-300 text-left">
+                                <span data-i18n="hist-4-date" class="inline-block bg-gradient-to-r from-orange-500 to-purple-600 text-white px-4 py-1.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest mb-3 md:mb-5 shadow-md">2014 - SEKARANG</span>
+                                <img src="https://i.postimg.cc/zXp0jq3j/Screenshot-2026-04-10-130609.png" alt="Sejarah 2014" class="w-full h-36 md:h-56 object-cover rounded-xl md:rounded-2xl mb-4 md:mb-5 shadow-inner">
+                                <p data-i18n="hist-4-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed font-medium">
+                                    Bangunan baharu telah siap dibina dengan peruntukan RM200,000. Serentak dengan itu, PDK berpindah sepenuhnya ke sini. Pelbagai kemudahan turut dinaik taraf bagi menambah baik perkhidmatan, antaranya pembinaan kolam hidroterapi, ruang legar serbaguna, tapak parkir, susur gajah beratap, dan penurapan kawasan luar bangunan.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-5/12 w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charter Modal Popup -->
+    <div id="charterModal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-purple-950/90 md:bg-purple-950/80 backdrop-blur-sm px-2 py-4 md:px-4 md:py-6 opacity-0 transition-opacity duration-300">
+        
+        <!-- Close Button (Fixed outside container on mobile) -->
+        <button onclick="closeCharterModal()" class="fixed md:absolute top-4 right-4 z-[10001] bg-white text-gray-600 hover:text-red-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-2xl w-full max-w-6xl max-h-[92vh] overflow-y-auto relative flex flex-col transform scale-95 transition-transform duration-300" id="charterModalContent">
+            
+            <!-- Modal Content (Grid) -->
+            <div class="px-5 pt-12 pb-10 md:px-12 md:pt-14 md:pb-16">
+                <div class="text-center mb-8 md:mb-16">
+                    <h2 data-i18n="charter-title-main" class="text-[10px] md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Komitmen Kami</h2>
+                    <h3 data-i18n="charter-subtitle" class="text-2xl md:text-4xl font-extrabold text-purple-900 tracking-tight">Piagam <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Pelanggan</span></h3>
+                    <div class="w-16 md:w-24 h-1 bg-[#f97316] mx-auto mt-4 md:mt-6 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                    <!-- Charter 1 -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-[#f97316] md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group">
+                        <div class="bg-orange-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-1" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Memastikan semua pelatih menerima pendidikan berkualiti berasaskan kurikulum yang ditetapkan oleh Jabatan Kebajikan Masyarakat Malaysia.
+                        </p>
+                    </div>
+
+                    <!-- Charter 2 -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-purple-600 md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group">
+                        <div class="bg-purple-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-2" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Membantu menyelesaikan pelatih yang mempunyai masalah pembelajaran dengan penuh keikhlasan dan kesungguhan.
+                        </p>
+                    </div>
+
+                    <!-- Charter 3 -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-[#f97316] md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group">
+                        <div class="bg-orange-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-3" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Mendidik, memupuk minat dan membina potensi-potensi pelatih.
+                        </p>
+                    </div>
+
+                    <!-- Charter 4 -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-purple-600 md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group">
+                        <div class="bg-purple-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-4" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Mengamalkan sikap telus dan permuafakatan dengan semua pihak dalam komuniti bagi membentuk generasi OKU masa depan yang berkualiti.
+                        </p>
+                    </div>
+
+                    <!-- Charter 5 -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-[#f97316] md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group">
+                        <div class="bg-orange-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-5" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Sentiasa membekalkan maklumat terkini mengenai perjalanan PDK kepada pihak yang memerlukan dengan kadar segera sekiranya diperlukan.
+                        </p>
+                    </div>
+
+                    <!-- Charter 6 -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-purple-600 md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group">
+                        <div class="bg-purple-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-6" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Melaksanakan dasar kerajaan yang melibatkan pendidikan khusus bagi kanak-kanak OKU selaras dengan falsafah Pendidikan Kebangsaan.
+                        </p>
+                    </div>
+
+                    <!-- Charter 7 (Centered on desktop to balance the grid) -->
+                    <div class="bg-gray-50 rounded-2xl p-5 md:p-8 border-l-4 border-[#f97316] md:hover:bg-white md:hover:shadow-[0_10px_30px_rgba(88,28,135,0.08)] transition-all duration-300 group md:col-span-2 lg:col-span-1 lg:col-start-2">
+                        <div class="bg-orange-100 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-4 md:mb-5 md:group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p data-i18n="charter-7" class="text-gray-700 text-xs md:text-sm leading-relaxed font-medium">
+                            Menjalin hubungan erat dan mesra antara waris, pelatih, petugas PPDK dan komuniti setempat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Organization Modal Popup -->
+    <div id="orgModal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-purple-950/90 md:bg-purple-950/80 backdrop-blur-sm px-2 py-4 md:px-4 md:py-6 opacity-0 transition-opacity duration-300">
+        
+        <!-- Close Button (Fixed outside container on mobile) -->
+        <button onclick="closeOrgModal()" class="fixed md:absolute top-4 right-4 z-[10001] bg-white text-gray-600 hover:text-red-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="bg-gray-50 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl w-full max-w-6xl max-h-[92vh] overflow-y-auto relative flex flex-col transform scale-95 transition-transform duration-300" id="orgModalContent">
+            
+            <!-- Modal Content (Grid) -->
+            <div class="px-5 pt-12 pb-10 md:px-12 md:pt-14 md:pb-16 text-center uppercase">
+                <h2 data-i18n="leadership-title" class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-purple-900 mb-8 md:mb-12 tracking-tighter">Kepimpinan Jawatankuasa</h2>
+                
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-6 md:p-8 rounded-[1.5rem] shadow-lg border-t-4 border-[#f97316] w-full max-w-[280px] md:max-w-xs mb-8 md:mb-12 card-hover">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80" alt="Chairman" class="leader-img mb-4">
+                        <h3 data-i18n="leader-name" class="text-sm md:text-lg font-bold text-purple-900">Nama Pengerusi</h3>
+                        <p data-i18n="leader-role" class="text-orange-600 text-[9px] md:text-[10px] font-bold tracking-widest mt-1">Pengerusi PPDK</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 w-full max-w-5xl">
+                        <div class="bg-white p-5 md:p-6 rounded-[1.5rem] shadow-md border-t-4 border-purple-600 card-hover">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&q=80" alt="Secretary" class="leader-img mb-4">
+                            <h3 data-i18n="sec-role" class="font-bold text-purple-900 text-xs md:text-sm">Setiausaha</h3>
+                            <p data-i18n="sec-name" class="text-gray-400 text-[9px] md:text-[10px] mt-1 font-bold uppercase tracking-tighter">NAMA PENUH SETIAUSAHA</p>
+                        </div>
+                        <div class="bg-white p-5 md:p-6 rounded-[1.5rem] shadow-md border-t-4 border-purple-600 card-hover">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=256&q=80" alt="Treasurer" class="leader-img mb-4">
+                            <h3 data-i18n="treas-role" class="font-bold text-purple-900 text-xs md:text-sm">Bendahari</h3>
+                            <p data-i18n="treas-name" class="text-gray-400 text-[9px] md:text-[10px] mt-1 font-bold uppercase tracking-tighter">NAMA PENUH BENDAHARI</p>
+                        </div>
+                        <div class="bg-white p-5 md:p-6 rounded-[1.5rem] shadow-md border-t-4 border-purple-600 card-hover">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&q=80" alt="Supervisor" class="leader-img mb-4">
+                            <h3 data-i18n="sup-role" class="font-bold text-purple-900 text-xs md:text-sm">Penyelia</h3>
+                            <p data-i18n="sup-name" class="text-gray-400 text-[9px] md:text-[10px] mt-1 font-bold uppercase tracking-tighter">NAMA PENUH PENYELIA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Modal Popup -->
+    <div id="faqModal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-purple-950/90 md:bg-purple-950/80 backdrop-blur-sm px-2 py-4 md:px-4 md:py-6 opacity-0 transition-opacity duration-300">
+        
+        <!-- Close Button (Fixed outside container on mobile) -->
+        <button onclick="closeFaqModal()" class="fixed md:absolute top-4 right-4 z-[10001] bg-white text-gray-600 hover:text-red-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <div class="bg-gray-50 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl w-full max-w-4xl max-h-[92vh] overflow-y-auto relative flex flex-col transform scale-95 transition-transform duration-300" id="faqModalContent">
+            
+            <!-- Modal Content -->
+            <div class="px-4 pt-12 pb-10 md:px-12 md:pt-14 md:pb-16 text-center">
+                <h2 data-i18n="faq-title-main" class="text-xs md:text-base font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Maklumat Tambahan</h2>
+                <h3 data-i18n="faq-subtitle" class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-purple-900 tracking-tight px-4">Soalan <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600">Lazim (FAQ)</span></h3>
+                <div class="w-16 md:w-24 h-1 bg-[#f97316] mx-auto mt-4 md:mt-6 mb-8 md:mb-12 rounded-full"></div>
+                
+                <div id="faq-container" class="space-y-3 md:space-y-4 text-[11px] md:text-sm font-medium w-full text-left"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-purple-950 text-purple-300 py-10 md:py-16 px-4 text-center">
+        <div class="max-w-7xl mx-auto text-center" data-aos="fade-up">
+            <div class="flex flex-col items-center mb-8 md:mb-10 text-center">
+                <div class="bg-white p-2 rounded-2xl mb-4 md:mb-6 shadow-2xl">
+                     <img src="https://i.postimg.cc/T1ww7Z4m/pdk-logo-removebg-preview.png" alt="Logo PPDK" class="h-10 md:h-16 w-auto">
+                </div>
+                <h3 class="text-white font-bold text-base md:text-xl uppercase tracking-tighter text-center">PDK Parit Keroma</h3>
+                <p class="text-purple-300 text-[8px] md:text-[10px] mt-1.5 max-w-lg mx-auto uppercase tracking-widest font-semibold leading-relaxed">Pertubuhan Kebajikan Pemulihan Dalam Komuniti (PDK) Parit Keroma Muar, Johor</p>
+                <p data-i18n="footer-moto" class="text-orange-400 font-bold text-[8px] md:text-[10px] mt-4 tracking-[0.4em] uppercase italic text-center">"Bersama Membantu Insan Istimewa"</p>
+                <p class="text-purple-400 text-[8px] md:text-[10px] mt-5 md:mt-6 font-mono border border-white/10 px-4 py-1 rounded-full uppercase text-center">Pendaftaran: PPM-001-23-456789</p>
             </div>
             
             <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-8 md:mb-12 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/40">
                 <a href="#utama" data-i18n="nav-home" class="hover:text-white transition">Utama</a>
                 <a href="#mengenai" data-i18n="nav-profile" class="hover:text-white transition">Profil</a>
-                <a href="#sumbangan" data-i18n="nav-contribution" class="hover:text-white transition text-xs">Infaq</a>
+                <a href="#sumbangan" data-i18n="nav-contribution" class="hover:text-white transition">Infaq</a>
             </div>
 
-            <div class="text-[8px] md:text-[9px] text-purple-400 border-t border-white/5 pt-8 max-w-2xl mx-auto leading-relaxed uppercase tracking-widest font-bold text-center">
+            <div class="text-[8px] md:text-[9px] text-purple-400 border-t border-white/5 pt-6 md:pt-8 max-w-2xl mx-auto leading-relaxed uppercase tracking-widest font-bold text-center">
                 &copy; 2024 PPDK Parit Keroma Muar. <span data-i18n="footer-copy">Hak Cipta Terpelihara.</span>
             </div>
         </div>
     </footer>
+
+    <!-- AOS JS Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
         function toggleMobileMenu() {
@@ -367,6 +839,48 @@
                 "hero-title": "Membina Masa Depan <span class='text-orange-300'>Luar Biasa</span> Untuk OKU.",
                 "hero-desc": "Kami menyediakan bimbingan pemulihan yang berintegriti untuk melahirkan insan istimewa yang berdikari dan cemerlang.",
                 "hero-cta-1": "Sumbang Dana", "hero-cta-2": "Ketahui Kami",
+                "about-title-main": "Profil PPDK",
+                "about-subtitle": "Hala Tuju & <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Matlamat</span>",
+                "visimisi-intro": "Ketahui lebih lanjut mengenai wawasan, matlamat, dan objektif utama dalam memperkasakan komuniti OKU di PPDK Parit Keroma.",
+                "visimisi-btn": "Lihat Visi & Misi",
+                "visi-title": "VISI",
+                "visi-desc": "Melahirkan masyarakat Orang Kurang Upaya (OKU) yang berdikari dan cemerlang serta membangun PDK kearah teknologi maklumat.",
+                "misi-title": "MISI",
+                "misi-desc": "Memberi bimbingan, pemulihan dan kemahiran kepada kalangan Orang Kurang Upaya (OKU) agar mereka boleh menjalani kehidupan, berkomunikasi, berdikari dan mengendali teknologi ICT dalam komuniti cemerlang.",
+                "moto-title": "Moto Rasmi",
+                "moto-desc": "\"BERKHIDMAT UNTUK OKU\"",
+                "charter-title-main": "Komitmen Kami",
+                "charter-subtitle": "Piagam <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Pelanggan</span>",
+                "charter-intro": "Ketahui komitmen, keikhlasan dan dedikasi kami dalam memberikan perkhidmatan pemulihan yang terbaik kepada golongan OKU dan komuniti setempat.",
+                "charter-btn": "Lihat Piagam Pelanggan",
+                "charter-1": "Memastikan semua pelatih menerima pendidikan berkualiti berasaskan kurikulum yang ditetapkan oleh Jabatan Kebajikan Masyarakat Malaysia.",
+                "charter-2": "Membantu menyelesaikan pelatih yang mempunyai masalah pembelajaran dengan penuh keikhlasan dan kesungguhan.",
+                "charter-3": "Mendidik, memupuk minat dan membina potensi-potensi pelatih.",
+                "charter-4": "Mengamalkan sikap telus dan permuafakatan dengan semua pihak dalam komuniti bagi membentuk generasi OKU masa depan yang berkualiti.",
+                "charter-5": "Sentiasa membekalkan maklumat terkini mengenai perjalanan PDK kepada pihak yang memerlukan dengan kadar segera sekiranya diperlukan.",
+                "charter-6": "Melaksanakan dasar kerajaan yang melibatkan pendidikan khusus bagi kanak-kanak OKU selaras dengan falsafah Pendidikan Kebangsaan.",
+                "charter-7": "Menjalin hubungan erat dan mesra antara waris, pelatih, petugas PPDK dan komuniti setempat.",
+                "leadership-title-main": "Carta Organisasi",
+                "leadership-subtitle": "Kepimpinan <span class='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-500'>Jawatankuasa</span>",
+                "leadership-intro": "Kenali barisan ahli jawatankuasa dan tenaga pengajar yang berdedikasi dalam menerajui kecemerlangan PPDK Parit Keroma.",
+                "leadership-btn": "Lihat Carta Organisasi",
+                "faq-title-main": "Maklumat Tambahan",
+                "faq-subtitle": "Soalan <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Lazim (FAQ)</span>",
+                "faq-intro": "Dapatkan jawapan kepada persoalan yang sering ditanya mengenai pendaftaran, operasi, dan perkhidmatan di PPDK Parit Keroma.",
+                "faq-btn": "Lihat Soalan Lazim",
+                "history-title-main": "Latar Belakang",
+                "history-subtitle": "Sejarah <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Penubuhan</span>",
+                "history-intro": "PDK Daerah Muar bermula sejak 1992 dan telah melalui pelbagai fasa perkembangan untuk terus memberi khidmat terbaik kepada golongan OKU.",
+                "history-btn": "Baca Sejarah Penuh",
+                "hist-1-date": "1992 - 1995",
+                "hist-1-desc": "PDK Daerah Muar pada peringkat awalnya ditubuhkan pada 12 Sept 1992 di PDK Parit Keroma atas inisiatif Jabatan Kebajikan Masyarakat Daerah Muar dengan menumpang di bangunan Pandu Puteri di Jalan Timbalan Muar. Ketika itu, bilangan pelatih seramai 25 orang (7 lelaki, 18 perempuan) dengan kecacatan fizikal dan sindrom down serta dikendalikan oleh 2 orang tenaga pengajar.",
+                "hist-2-date": "1995 - 2008",
+                "hist-2-desc": "Pada tahun 1995, PDK telah berpindah ke Bangunan Rumah Orang Tua Parit Keroma, Jalan Abdul Rahman, Muar. Bangunan ini dirasmikan oleh Y.A.B Datin Prof. Jamilah binti Ariffin, Yang DiPertua JUWITA Negeri Johor. Perpindahan ini bertujuan untuk menampung bilangan OKU yang semakin bertambah dan memerlukan perkhidmatan penjagaan.",
+                "hist-3-date": "2009 - 2013",
+                "hist-3-desc": "Pada 2009, PDK berpindah ke bangunan lain di Jalan Temenggong Ahmad, Parit Keroma kerana bangunan sedia ada uzur dan tidak selamat atas nasihat JKR Daerah Muar. Bangunan ini disewa RM2,000 sebulan. Dalam pada itu, Kerajaan Negeri Johor menerusi JKM telah menyalurkan peruntukan untuk membina bangunan baharu PDK di tapak asal.",
+                "hist-4-date": "2014 - SEKARANG",
+                "hist-4-desc": "Bangunan baharu telah siap dibina dengan peruntukan RM200,000. Serentak dengan itu, PDK berpindah sepenuhnya ke sini. Pelbagai kemudahan turut dinaik taraf bagi menambah baik perkhidmatan, antaranya pembinaan kolam hidroterapi, ruang legar serbaguna, tapak parkir, susur gajah beratap, dan penurapan kawasan luar bangunan.",
+                "core-1": "Bimbingan", "core-2": "Berdikari", "core-3": "Kemahiran", "core-4": "Cemerlang",
                 "stat-1": "Pelatih Aktif", "stat-2": "Petugas Dedikasi", "stat-3": "Program Mingguan", "stat-4": "Pelepasan Cukai",
                 "about-title": "Amanah & Ketelusan", "about-p1": "PPDK Parit Keroma adalah sebuah pusat pemulihan yang berdaftar secara sah di bawah Pendaftar Pertubuhan (ROS) dan diselia oleh Jabatan Kebajikan Masyarakat (JKM).",
                 "reg-label": "Pendaftaran Rasmi",
@@ -388,7 +902,7 @@
                 "q-makan": "Adakah makanan disediakan sepanjang sesi harian?", "a-makan": "Ya, kami menyediakan sarapan ringkas dan makan tengahari yang berkhasiat untuk semua pelatih yang hadir.",
                 "q-transport": "Adakah PPDK menyediakan van pengangkutan?", "a-transport": "Buat masa ini, pengangkutan adalah tanggungjawab keluarga. Kami sedang berusaha mengumpul dana bagi mendapatkan van khas pusat.",
                 "q-volunteer": "Bagaimana untuk menjadi sukarelawan atau melakukan lawatan?", "a-volunteer": "Sila hubungi urusetia melalui WhatsApp sekurang-kurangnya 1 minggu awal untuk pendaftaran atau penetapan tarikh lawatan.",
-                "contact-title": "Hubungi Kami", "loc-label": "Lokasi", "email-label": "E-mel", "vol-cta": "Daftar Sukarelawan", "loc-title": "Kunjungi Pusat Kami", "loc-desc": "Klik butang di bawah untuk mendapatkan arah pemanduan terus ke PPDK Parit Keroma.", "loc-cta": "Buka Lokasi di Peta",
+                "contact-title": "Hubungi Kami", "loc-label": "Lokasi", "phone-label": "No. Tel / HP", "email-label": "E-mel", "vol-cta": "Daftar Sukarelawan", "loc-title": "Kunjungi Pusat Kami", "loc-desc": "Klik butang di bawah untuk mendapatkan arah pemanduan terus ke PPDK Parit Keroma.", "loc-cta": "Buka Lokasi di Peta",
                 "footer-moto": "\"Bersama Membantu Insan Istimewa\"", "footer-copy": "Hak Cipta Terpelihara."
             },
             en: {
@@ -400,6 +914,48 @@
                 "hero-title": "Building <span class='text-orange-300'>Extraordinary</span> Futures for PWDs.",
                 "hero-desc": "We provide integrity-driven rehabilitation guidance to nurture independent and excellent special needs individuals.",
                 "hero-cta-1": "Donate Funds", "hero-cta-2": "About Us",
+                "about-title-main": "PPDK Profile",
+                "about-subtitle": "Direction & <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Goals</span>",
+                "visimisi-intro": "Learn more about the vision, goals, and core objectives in empowering the PWD community at PPDK Parit Keroma.",
+                "visimisi-btn": "View Vision & Mission",
+                "visi-title": "VISION",
+                "visi-desc": "To produce an independent and excellent community of Persons with Disabilities (PWDs) and develop PPDK towards information technology.",
+                "misi-title": "MISSION",
+                "misi-desc": "To provide guidance, rehabilitation, and skills to Persons with Disabilities (PWDs) so they can lead their lives, communicate, be independent, and handle ICT technology within an excellent community.",
+                "moto-title": "Official Motto",
+                "moto-desc": "\"SERVING THE PWDs\"",
+                "charter-title-main": "Our Commitment",
+                "charter-subtitle": "Client <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Charter</span>",
+                "charter-intro": "Discover our commitment, sincerity, and dedication in providing the best rehabilitation services to PWDs and the local community.",
+                "charter-btn": "View Client Charter",
+                "charter-1": "Ensure all trainees receive quality education based on the curriculum set by the Malaysian Social Welfare Department.",
+                "charter-2": "Assist in resolving trainees' learning difficulties with full sincerity and dedication.",
+                "charter-3": "Educate, foster interest, and build the potential of trainees.",
+                "charter-4": "Practice transparency and consensus with all parties in the community to shape a quality future generation of PWDs.",
+                "charter-5": "Always provide the latest information regarding PPDK operations to those in need promptly when required.",
+                "charter-6": "Implement government policies involving special education for PWD children in line with the National Education Philosophy.",
+                "charter-7": "Forge close and friendly relationships between guardians, trainees, PPDK staff, and the local community.",
+                "leadership-title-main": "Organization Chart",
+                "leadership-subtitle": "Committee <span class='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-500'>Leadership</span>",
+                "leadership-intro": "Get to know the dedicated committee members and teaching staff leading the excellence of PPDK Parit Keroma.",
+                "leadership-btn": "View Organization Chart",
+                "faq-title-main": "Additional Information",
+                "faq-subtitle": "Frequently Asked <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>Questions (FAQ)</span>",
+                "faq-intro": "Get answers to frequently asked questions regarding registration, operations, and services at PPDK Parit Keroma.",
+                "faq-btn": "View FAQs",
+                "history-title-main": "Background",
+                "history-subtitle": "Establishment <span class='text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-600'>History</span>",
+                "history-intro": "Muar District PDK began in 1992 and has gone through various phases of development to continue providing the best service to PWDs.",
+                "history-btn": "Read Full History",
+                "hist-1-date": "1992 - 1995",
+                "hist-1-desc": "PDK Muar District was initially established on Sept 12, 1992, at PDK Parit Keroma on the initiative of the Muar District Social Welfare Department, sharing the Girl Guides building on Jalan Timbalan Muar. At that time, there were 25 trainees (7 males, 18 females) with physical disabilities and down syndrome, managed by 2 instructors.",
+                "hist-2-date": "1995 - 2008",
+                "hist-2-desc": "In 1995, the PDK moved to the Parit Keroma Old Folks Home Building, Jalan Abdul Rahman, Muar. The building was officiated by Y.A.B Datin Prof. Jamilah binti Ariffin, President of JUWITA Johor. This move was intended to accommodate the increasing number of PWDs requiring services and care.",
+                "hist-3-date": "2009 - 2013",
+                "hist-3-desc": "In 2009, PDK moved to another building on Jalan Temenggong Ahmad due to the old building being dilapidated and deemed unsafe by JKR Muar. It was rented for RM2,000/month. The Johor State Government through JKM allocated funds to build a new PDK building on the original site.",
+                "hist-4-date": "2014 - PRESENT",
+                "hist-4-desc": "A new building was constructed with an RM200,000 allocation and completed in 2014. PDK officially relocated there. Utilizing existing funds and additional allocations, several facilities were upgraded, including a hydrotherapy pool, multipurpose foyer, parking space, covered walkways, and exterior paving.",
+                "core-1": "Guidance", "core-2": "Independent", "core-3": "Skills", "core-4": "Excellent",
                 "stat-1": "Active Trainees", "stat-2": "Dedicated Staff", "stat-3": "Weekly Programs", "stat-4": "Tax Exempted",
                 "about-title": "Integrity & Transparency", "about-p1": "PPDK Parit Keroma is an officially registered rehabilitation center under the Registrar of Societies (ROS) and supervised by the Department of Social Welfare (JKM).",
                 "reg-label": "Official Registration",
@@ -421,15 +977,44 @@
                 "q-makan": "Is food provided during daily sessions?", "a-makan": "Yes, we provide light breakfast and nutritious lunch for all attending trainees.",
                 "q-transport": "Does PPDK provide a transportation van?", "a-transport": "Currently, transportation is the family's responsibility. We are working to raise funds to acquire a special center van.",
                 "q-volunteer": "How to become a volunteer or conduct a visit?", "a-volunteer": "Please contact the secretariat via WhatsApp at least 1 week in advance for registration or setting a visit date.",
-                "contact-title": "Contact Us", "loc-label": "Location", "email-label": "E-mail", "vol-cta": "Register as Volunteer", "loc-title": "Visit Our Center", "loc-desc": "Click the button below to get driving directions directly to PPDK Parit Keroma.", "loc-cta": "Open Location on Map",
+                "contact-title": "Contact Us", "loc-label": "Location", "phone-label": "Phone No.", "email-label": "E-mail", "vol-cta": "Register as Volunteer", "loc-title": "Visit Our Center", "loc-desc": "Click the button below to get driving directions directly to PPDK Parit Keroma.", "loc-cta": "Open Location on Map",
                 "footer-moto": "\"Together Helping Special People\"", "footer-copy": "All Rights Reserved."
             }
         };
 
+        let currentLang = 'ms';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ms' ? 'en' : 'ms';
+            changeLang(currentLang);
+        }
+
         function changeLang(lang) {
+            currentLang = lang;
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => el.classList.add('lang-transition'));
             
+            // Toggle Slider Animation & Colors
+            const slider = document.getElementById('lang-slider');
+            const textBm = document.getElementById('text-bm');
+            const textEn = document.getElementById('text-en');
+            
+            if (slider && textBm && textEn) {
+                if (lang === 'ms') {
+                    slider.style.transform = 'translateX(0)';
+                    textBm.classList.add('text-white');
+                    textBm.classList.remove('text-gray-500');
+                    textEn.classList.add('text-gray-500');
+                    textEn.classList.remove('text-white');
+                } else {
+                    slider.style.transform = 'translateX(40px)';
+                    textEn.classList.add('text-white');
+                    textEn.classList.remove('text-gray-500');
+                    textBm.classList.add('text-gray-500');
+                    textBm.classList.remove('text-white');
+                }
+            }
+
             setTimeout(() => {
                 elements.forEach(el => {
                     const key = el.getAttribute('data-i18n');
@@ -437,17 +1022,6 @@
                         el.innerHTML = translations[lang][key];
                     }
                 });
-
-                const btnsMs = document.querySelectorAll('.btn-lang-ms, .btn-lang-ms-m');
-                const btnsEn = document.querySelectorAll('.btn-lang-en, .btn-lang-en-m');
-                
-                if (lang === 'ms') {
-                    btnsMs.forEach(b => { b.classList.add('bg-purple-900', 'text-white'); b.classList.remove('text-gray-500'); });
-                    btnsEn.forEach(b => { b.classList.remove('bg-purple-900', 'text-white'); b.classList.add('text-gray-500'); });
-                } else {
-                    btnsEn.forEach(b => { b.classList.add('bg-purple-900', 'text-white'); b.classList.remove('text-gray-500'); });
-                    btnsMs.forEach(b => { b.classList.remove('bg-purple-900', 'text-white'); b.classList.add('text-gray-500'); });
-                }
 
                 renderFAQ(lang);
                 elements.forEach(el => el.classList.remove('lang-transition'));
@@ -469,20 +1043,22 @@
             ];
 
             const container = document.getElementById('faq-container');
-            container.innerHTML = '';
-            faqKeys.forEach(item => {
-                const details = document.createElement('details');
-                details.className = "bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 group";
-                const summary = document.createElement('summary');
-                summary.className = "font-bold text-purple-900 cursor-pointer list-none flex justify-between items-center text-left";
-                summary.innerHTML = `${translations[lang][item.q]} <span class="text-orange-500 font-bold group-open:rotate-180 transition-transform ml-2">▼</span>`;
-                const p = document.createElement('p');
-                p.className = "mt-4 text-gray-600 leading-relaxed italic text-left";
-                p.innerHTML = translations[lang][item.a];
-                details.appendChild(summary);
-                details.appendChild(p);
-                container.appendChild(details);
-            });
+            if (container) {
+                container.innerHTML = '';
+                faqKeys.forEach(item => {
+                    const details = document.createElement('details');
+                    details.className = "bg-white p-4 md:p-6 rounded-[1rem] md:rounded-2xl shadow-sm border border-gray-100 group";
+                    const summary = document.createElement('summary');
+                    summary.className = "font-bold text-purple-900 cursor-pointer list-none flex justify-between items-center text-left";
+                    summary.innerHTML = `${translations[lang][item.q]} <span class="text-orange-500 font-bold group-open:rotate-180 transition-transform ml-2 shrink-0">▼</span>`;
+                    const p = document.createElement('p');
+                    p.className = "mt-3 md:mt-4 text-gray-600 leading-relaxed italic text-left text-[11px] md:text-sm";
+                    p.innerHTML = translations[lang][item.a];
+                    details.appendChild(summary);
+                    details.appendChild(p);
+                    container.appendChild(details);
+                });
+            }
         }
 
         function selectAmount(amt) {
@@ -495,7 +1071,71 @@
             event.currentTarget.classList.add('bg-purple-700', 'text-white', 'border-purple-600');
         }
         
-        window.onload = () => changeLang('ms');
+        // Modal Logic Helper
+        function openModal(id, contentId) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(contentId);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id, contentId) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(contentId);
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // History Modal
+        function openHistoryModal() { openModal('historyModal', 'historyModalContent'); }
+        function closeHistoryModal() { closeModal('historyModal', 'historyModalContent'); }
+        document.getElementById('historyModal').addEventListener('click', function(e) { if (e.target === this) closeHistoryModal(); });
+
+        // Visi Misi Modal
+        function openVisiMisiModal() { openModal('visiMisiModal', 'visiMisiModalContent'); }
+        function closeVisiMisiModal() { closeModal('visiMisiModal', 'visiMisiModalContent'); }
+        document.getElementById('visiMisiModal').addEventListener('click', function(e) { if (e.target === this) closeVisiMisiModal(); });
+        
+        // Charter Modal
+        function openCharterModal() { openModal('charterModal', 'charterModalContent'); }
+        function closeCharterModal() { closeModal('charterModal', 'charterModalContent'); }
+        document.getElementById('charterModal').addEventListener('click', function(e) { if (e.target === this) closeCharterModal(); });
+
+        // Organization Modal
+        function openOrgModal() { openModal('orgModal', 'orgModalContent'); }
+        function closeOrgModal() { closeModal('orgModal', 'orgModalContent'); }
+        document.getElementById('orgModal').addEventListener('click', function(e) { if (e.target === this) closeOrgModal(); });
+
+        // FAQ Modal
+        function openFaqModal() { openModal('faqModal', 'faqModalContent'); }
+        function closeFaqModal() { closeModal('faqModal', 'faqModalContent'); }
+        document.getElementById('faqModal').addEventListener('click', function(e) { if (e.target === this) closeFaqModal(); });
+        
+        window.onload = () => {
+            changeLang('ms');
+            
+            // Initialize AOS Animation
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 50
+            });
+        };
     </script>
 </body>
 </html>
